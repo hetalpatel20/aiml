@@ -118,3 +118,23 @@ Packages: Pandas, tensorflow, Keras (Sequential, Dense, Dropout, lambda, Flatten
 <center>
     <img src = images/copyright.png width = 15%, align = "right"/>
 </center>
+
+
+### Conclusion
+
+    Linear Regression Model
+    #    MSE - 114974086.42594165
+    #    RMSE - 10722.597000071468
+
+    LASSO Regularization 
+    #   MSE of LASSO =  114994701.9771133
+    #   RMSE of LASSO == 10723.558270327685
+
+    Ridge Regularization
+    #   MSE of Ridge  114982477.42580678
+    #   RMSE of Ridge  10722.988269405445
+
+    MSE and RMSE of each model is very close. It means that our model is balanced neither underfitter not overfitted.
+
+    As from coef, we can see Coef Values year, cylinders,new,diesel,4wd,2wd,full-size,offroad,pickup,truck,van,white,custom has positive impact on overall price, whereas rest of the attributes has negative impact. Also, car dataset have majority of information in categorical form and contain no continuos varibales. I think simple linear regression is sufficient for this data. Since, there is no continuos attributes, creating polynoimial features model will add any value.
+    

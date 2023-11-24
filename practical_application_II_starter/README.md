@@ -80,3 +80,61 @@ Most of the used car having zero price has clean title. Looks like data issue . 
  1)  Correlation Matrix - Core Used car attributes ( Age, Mileage, cyclinders)
  2)  Correlation Matrix -  Type of Cars
  3)  Correlation Matrix - Cosemetic Attributes
+
+ ### PCA Analyis 
+      
+      As we can see PC1 has 98% coef. Highlighted attributes has positive coef contrinbuting to PC1. in modeling, we will use highlighted attributes for modeling.
+ 
+                  PC1       PC2
+# price        0.262236 -0.079975
+# year         0.020170 -0.468296
+# cylinders    0.365946  0.147005
+# odometer     0.029375  0.125105
+age         -0.020170  0.468296
+excellent   -0.030442 -0.127727
+fair        -0.021766  0.130715
+# good         0.042846  0.145774
+like new    -0.002573 -0.063509
+# new          0.001949 -0.024808
+salvage     -0.012361  0.019204
+# diesel       0.244599  0.022936
+electric    -0.010560 -0.012997
+gas         -0.195766 -0.001921
+hybrid      -0.049948 -0.042433
+# other        0.012329  0.016067
+# automatic    0.107417 -0.324352
+manual      -0.107417  0.324352
+# 4wd          0.276448 -0.135274
+fwd         -0.362485 -0.095401
+# rwd          0.093511  0.284277
+compact     -0.202234  0.049590
+# full-size    0.353663  0.014957
+mid-size    -0.209763 -0.062420
+sub-compact -0.079902  0.034478
+# SUV          0.045098 -0.145161
+# bus          0.023055  0.030797
+convertible -0.045767  0.181005
+coupe       -0.066811  0.186919
+hatchback   -0.127249  0.000756
+mini-van    -0.036163 -0.017455
+# offroad      0.008043  0.037215
+# pickup       0.164670  0.031013
+sedan       -0.263369 -0.068047
+# truck        0.279332  0.034647
+# van          0.041766  0.016371
+wagon       -0.043140  0.004649
+# black        0.004317 -0.052909
+blue        -0.044243  0.012393
+brown       -0.006148  0.010353
+# custom       0.025962  0.035292
+green       -0.009465  0.082260
+grey        -0.048050 -0.061812
+orange      -0.013272  0.056837
+purple      -0.011262  0.024794
+red         -0.028743  0.060670
+silver      -0.065845 -0.029986
+# white        0.141165 -0.008473
+yellow      -0.006965  0.083910
+
+### KMean
+Total we have 118K cars records, which effectively forms 8 clusters.
