@@ -1,140 +1,199 @@
-Exploratory Data Analysis for Used Car sales features and its impact on price
+# Exploratory Data Analysis for Golf Swing data collected by simulators & perfomed by golfer
 
 
-# What is Used Car Pricing Problem?
+# Wish i can find out golf ball trajectory based on swing measurements?
 
-Customer looking for used car will always try to get maximize features within affordability. Based on consumer's personal equestion, he/she has list of must have features and optional features in used cars at the sametime considering affordability equation as well. I find buying a used car is hardest decision to make compare to buying a new car.  
+Any golfer with any skill level starting from beginner to pro, they are always curious about how to controll swring parameters to shape ball trajectory. Golfer always struggles swing after swing to control the factors affecting shape of ball trajectory. As a outdoor sports, golfer wants to create different shape of trajectory to cope up with wind, rain, hold position, avoiding hazzards. For this probelm golfer want to understand what all swing measurements drive ball trajectory. This dataset has no golfer demographic and skill level information. 
+First we need to explore the data and see what all information is available to us.
 
-For this problem, Used car dealer want to understand what all features drives the price of a used car.  Dealer also wants to understand features that are most valuble to buyer of a used car. The dataset given to us has no consumer demographic information. Hence, we can analyze the features and price correlationship and see how we can connect that analysis to consumer.  First we need to explore the data and see what all information is available to us.
+#  Common Utility Functions
 
- Data Description
+This section contains common utility functions to plot graphs and generate base classification models.
 
-There is only 1 CSV file provided containing vehicle data. 
-Looking at this dataset, dataset contains more categorical attributes compare to continuoys or numerical attributes. These attributes can be grouped based on
-1) Geographic 
-   - Region
-   - State
-2) Ownership
-      - Title Status
-3) Manufacture and Model
-      - Manufaturer
-      - Model
-4) Core features of the car
-      - Price
-      - year
-      - titel status
-      - vin (grouping purpose)
-      - condition
-      - cylinders
-      - fuel
-      - odometer
-      - transmission
-      - drive
-      - size
-      - type
-      - paint_color
+# Data Description
+
+Using golf simulator i have collected 850 swings which includes 24 swing measurements.  This dataset contains both categorical and non-categorical attributes. Here are the list of swing measurements.
+								
+1) Carry Distance - The carry of a golf shot is how far the ball travels before it hits the ground for the first time.
+2) Total Distance - Total distance = carry distance + distance ball rolls after hiting the ground
+3) Side Distance - Side is the distance from the target line based on where the ball lands.
+4) Smash Factor - Smash Factor relates to the amount of energy transferred from the club head to the golf ball. The higher the smash factor the better the energy transfer.
+5) Club Speed - Speed of club in mph
+6) Side Spin -  Ball side spin - left or right spin measured in degree at which ball spins
+7) Back Spin -  back spin rate of ball
+8) Ball Speed - Ball speed is a measure of how fast your ball leaves the club head after impact.
+9) Lie angle - Lie angle is the angle created between the center of the shaft and ground when you put your iron down in the address position.
+10) Attack Angle - The up or down movement of the club head at the time of maximum compression. Attack angle is measured relative to the horizon.
+11) Launch Angle - Launch Angle is the angle the ball takes off at relative to the horizon. Launch angle is highly correlated to dynamic loft.
+12) Side Angle - Side Angle Determines if You Will Hit a Power Fade or a Slice.
+13) Decent Angle - A ball rolling along the ground has a landing angle of zero, whereas a golf ball dropping from the heavens has a descent angle of 90 degrees
+14) Apex - maximum height ball attains
+15) Flight Time - time in the air
+16) Swing Type - fade, draw, straight etc
+17) Sping Axis - Spin axis represents the amount of curvature of a golf shot. A negative spin axis represents a ball curving to the left, a positive spin axis represents a right
+18) Face Angle - Face Angle is the direction the club face is pointed (right or left) at impact 
+19) Club Path
+20) Club Lie - club angle when resting on the ground
+21) Impact POS - NA
+22) Dynamic Loft - NA
+23) Face to path - face open or close relative to pathof the swing.
 
 In real-life above all factors can affect the overall price of used car. I think Geographic, ownership/vin and Manufacture/Model information will all too much categorical and can increase the complexity of model by adding unnessary dimensionality.
 For this study, i want to focus on core features of the car which directly incluences the price of the car. Next step is to prepare the dataset around using "core feartures of the used car".  lets see how the fidelity of data maintains. If it drops the records drastically, we need to comeup with different approch.
 
+# Data Cleanup
+
+1.  Drop unnessary columns
+2.  Parse the column values to separate direction and distance
+3.  Remove record having less than 70 yrds total distance that can be resulted becaus of miss hit
+4.  Convert columns datatype
+5.   Convert categorical columns using simple strategy which is assign 1 for L(Left) and 2 for R(Right).
+
+
 # Data breakdown
 
-   - total no fo records -426880    with unique vehicles of = 118246
-
-   - we can not apply dropna at this stage because it will reduce the size of recordset drastically.
-
-Next step :  Lets merge rows or drop duplicate rows based on VIN. We will use core attributes of used car to indentify duplicate rows.
+  -  End of all data cleanups , we have total 820 swings data
 
 # Results of duplicates
 
-Identifying duplicates will be two step process. 
-- Step 1 - First we apply "all core attributes of used cars" as duplicate rule. That way will have dataframe having all attributes carrying values.
-- Step 2 - Secondly, apply duplicates rule based on VIN on the Step1 output.
+Since, this entire dataset captured by actual swing perfomed by actual golfer. There is chance of having duplicates in this dataset.
 
-So, this dataset carries 118427 clean vehicle records.
+# Data Exploration
 
-Next step... check for NAN...
+### No of swing by ball trajectory
+    -  This golfer has majority of swing types in straight, draw, fade and hook and slice. occessionally, golfer has pull hook and push hook swing type. 
+![no_of_Swing_type.png](attachment:no_of_Swing_type.png)
 
-# Total clean vehicles record 22560 out of 118246.  It feels like we are loosing good amount of information when we applied dropna.
+### Carry distance vs smash factor
+-  This graph shows as smash factor increases which results in overall carry distance. So, for golfer having right smash factor is very important. Smash factor of 1.3 and above is very important to achieve good carry distance.
 
-### No Cars by cylinders
--  4,6 and 8 cylinders cars are most popular used car
 
-### Aging of used cars conisdering car is still operative today vs price
+![Carry vs smash.png](<attachment:Carry vs smash.png>)
 
--   Oldest Used Car  118.0
--   Newest Used Car  1.0
--   Highest Used Car  167500
--   Lowest Used Car  0
+###  Carry Distance vs Ball speed
 
-### Why the price of used car is zero?  Does it has title issue?
+As you can see Carry distance and ball speed are positively correlated. 
 
-Most of the used car having zero price has clean title. Looks like data issue . Lets remove records with price equal to zero.
+![image.png](attachment:image.png)
 
-    title_status    Count
--   clean           1234
--   rebuilt         2
--   salvage         1
-###  Correlation matrix based on attributes grouping
+###  Carry distance vs launch angle
 
- 1)  Correlation Matrix - Core Used car attributes ( Age, Mileage, cyclinders)
- 2)  Correlation Matrix -  Type of Cars
- 3)  Correlation Matrix - Cosemetic Attributes
+As launch angle decreases carry distance increases. 
 
- ### PCA Analyis 
-      
-      As we can see PC1 has 98% coef. Highlighted attributes has positive coef contrinbuting to PC1. in modeling, we will use highlighted attributes for modeling.
- 
-                  PC1       PC2
-# price        0.262236 -0.079975
-# year         0.020170 -0.468296
-# cylinders    0.365946  0.147005
-# odometer     0.029375  0.125105
-age         -0.020170  0.468296
-excellent   -0.030442 -0.127727
-fair        -0.021766  0.130715
-# good         0.042846  0.145774
-like new    -0.002573 -0.063509
-# new          0.001949 -0.024808
-salvage     -0.012361  0.019204
-# diesel       0.244599  0.022936
-electric    -0.010560 -0.012997
-gas         -0.195766 -0.001921
-hybrid      -0.049948 -0.042433
-# other        0.012329  0.016067
-# automatic    0.107417 -0.324352
-manual      -0.107417  0.324352
-# 4wd          0.276448 -0.135274
-fwd         -0.362485 -0.095401
-# rwd          0.093511  0.284277
-compact     -0.202234  0.049590
-# full-size    0.353663  0.014957
-mid-size    -0.209763 -0.062420
-sub-compact -0.079902  0.034478
-# SUV          0.045098 -0.145161
-# bus          0.023055  0.030797
-convertible -0.045767  0.181005
-coupe       -0.066811  0.186919
-hatchback   -0.127249  0.000756
-mini-van    -0.036163 -0.017455
-# offroad      0.008043  0.037215
-# pickup       0.164670  0.031013
-sedan       -0.263369 -0.068047
-# truck        0.279332  0.034647
-# van          0.041766  0.016371
-wagon       -0.043140  0.004649
-# black        0.004317 -0.052909
-blue        -0.044243  0.012393
-brown       -0.006148  0.010353
-# custom       0.025962  0.035292
-green       -0.009465  0.082260
-grey        -0.048050 -0.061812
-orange      -0.013272  0.056837
-purple      -0.011262  0.024794
-red         -0.028743  0.060670
-silver      -0.065845 -0.029986
-# white        0.141165 -0.008473
-yellow      -0.006965  0.083910
+![image.png](attachment:image.png)
 
-### KMean
-Total we have 118K cars records, which effectively forms 8 clusters.
+# Correlation Matrix
+- Step 1.  Encode target column "Type"
+
+    -    Straight      0
+    -    Fade          1
+     -    Draw          2
+     -    Slice         3
+     -    Hook          4
+     -    Pull Hook     5
+     -    Push Slice    6
+     -    Pull Slice    7
+     -    Push Fade     8
+     -    Pull Draw     9
+     -    Push Hook     10
+     -    Push          11
+     -    Pull Fade     12
+     -    Pull          13
+
+-  Step 2:  Lets categorized attributes to develop more insight into correlation matrix
+
+| Index | Column            |  Non-Null Count  |Dtype       |   Factors incluencing targets                                           |
+|-------|  ------           |   -------------- | -----      |    -------------------------------                    |
+| 0     |Carry              |  725 non-null    |float64     |    Target Attribute                                      |
+| 1   |Total               |725 non-null    |float64| NA | 
+|2  | Side Dist           |725 non-null   | float64| Target Attribute to find out distance away from target line|
+| 3  | Smash Factor       | 725 non-null  |  float64| Carry |
+| 4  | Club Speed         | 725 non-null  |  float64| Carry |
+| 5  | Ball Speed         | 725 non-null  |  float64| Carry |
+| 6  | Back Spin           |725 non-null   | float64| Carry |
+| 7  | Side Spin Angle     |725 non-null   | int64  | Type|
+| 8  | Side Spin           |725 non-null   | float64| Type |
+| 9  | Launch Angle        |725 non-null   | float64| Carry|
+| 10 | Side Angle          |725 non-null   | object | Type|
+| 11 | Decent Angle        |725 non-null   | float64| Type|
+| 12  |Type                |725 non-null   | int64  | Target to predict shape of the ball flight |
+| 13 | Spin Axis           |725 non-null   | float64| Carry |
+| 14 | Face Angle         | 725 non-null   | int64  | Type|
+| 15 | Face Path Angle    |725 non-null   | float64| Type|
+| 16  |Club Path           |725 non-null   | float64| Type|
+| 17  |Club Path Angle    | 725 non-null   | int64  | Type|
+| 18 | Face to Path Angle  |725 non-null   | int64  | Type|
+| 19  |Face to Path       | 725 non-null   | float64| Type|
+| 20  |Side Dist Angle    | 725 non-null   | int64  | Type|
+| 21 | Side Angle Dir     | 725 non-null   | int64  | Type|
+
+As we can see from the correlation matrix that smash factor, club speed and ball speed has positive impact of overall carry distance. Golfer trying to maximize distance should focus on these three factors. Factors such as back spin, side spin and spin axis has negative effect of carry distance. Interestingly launch angle has negative impact on carry distance whereas decent angle has positive impact on carry distance. 
+
+# Reduce dimensionality of this dataset using PCA method
+
+## Carry Attributes reduction using Biplot 
+
+|            |       PC1 |      PC2 |
+|------------|-----------|----------|
+Carry        |-0.436347 |-0.315888|
+Smash Factor |-0.360746 |-0.016522|
+Club Speed   |-0.383214| -0.301832|
+Ball Speed   |-0.460498 |-0.240967|
+Back Spin    | 0.323242 |-0.432859|
+Side Spin    |-0.003745 | 0.244154|
+Spin Axis    | 0.038862 |-0.086620|
+Launch Angle  |0.419366 |-0.226664|
+Decent Angle  |0.196658 |-0.667021|
+
+![image.png](attachment:image.png)
+
+## PCA of shape of trajectary data attributes
+
+![image-2.png](attachment:image-2.png)
+
+
+|                  |       PC1     |  PC2|
+|------------------|---------------|-----|
+Back Spin       |    0.011439| -0.284711|
+Side Spin Angle  |   0.413378| -0.087277|
+Side Spin       |    0.199156 | 0.286111|
+Side Angle      |    0.040970 | 0.512493|
+Type            |    0.171317|-0.072542|
+Face Angle       |   0.346412| -0.090865|
+Spin Axis         |  0.392884 |-0.032781|
+Face Path Angle  |   0.050470 | 0.528567|
+Club Path       |    0.073904 | 0.143316|
+Club Path Angle  |  -0.119292 |-0.172804|
+Face to Path Angle | 0.376864 | 0.051810|
+Face to Path    |    0.058795|  0.442987|
+Side Dist Angle |    0.466244| -0.113300|
+Side Angle Dir |     0.314374| -0.103335|
+
+![image.png](attachment:image.png)
+
+## Kmean clustering of Carry dataset using Elbow method
+
+![image-2.png](attachment:image-2.png)
+
+Optimal cluster value is 6. Which means 875 golf swings can be clustered in 8 clusters.
+
+## Kmean clustering of Swing Type dataset using Elbow method
+
+![image.png](attachment:image.png)
+
+Optimal cluster value is 8. Which means 875 golf swings can be clustered in 8 clusters.
+
+## Baseline Model Performance
+
+Baseline model performance is 32.13%
+
+This dataset contains both regression and classification problem. Predicting carry distance based on smash factors, club and ball speed is regression problem. Predicting shape of ball trajectory is classification problem
+
+To futher the model design, i have selected classification problem of predicting shape of ball trajectory. 
+
+For that i have selected four model and each model followed steps of:
+1)  baseline model performance
+2)  Model performane after hyperparameter tuning
+3)  confusion matrix of tuned model.
+4)  Model comparison
+
