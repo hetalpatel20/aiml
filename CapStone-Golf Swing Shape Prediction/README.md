@@ -6,6 +6,12 @@
 Any golfer with any skill level starting from beginner to pro, they are always curious about how to controll swring parameters to shape ball trajectory. Golfer always struggles swing after swing to control the factors affecting shape of ball trajectory. As a outdoor sports, golfer wants to create different shape of trajectory to cope up with wind, rain, hold position, avoiding hazzards. For this probelm golfer want to understand what all swing measurements drive ball trajectory. This dataset has no golfer demographic and skill level information. 
 First we need to explore the data and see what all information is available to us.
 
+Overall, we want to find out two parameters
+1)  Golf strike distance
+    This is regression problem which can help us predict distance based on swing parameters
+2)  Ball trajectory
+    This is classification problem which can help us classify the swing trajectory based on parameters.
+
 #  Common Utility Functions
 
 This section contains common utility functions to plot graphs and generate base classification models.
@@ -82,7 +88,7 @@ As launch angle decreases carry distance increases.
 
 ![image.png](attachment:image.png)
 
-# Correlation Matrix
+# Overall Correlation Matrix using complete dataset
 - Step 1.  Encode target column "Type"
 
     -    Straight      0
@@ -131,7 +137,9 @@ As we can see from the correlation matrix that smash factor, club speed and ball
 
 # Reduce dimensionality of this dataset using PCA method
 
-## Carry Attributes reduction using Biplot 
+Total no of attributes in this dataset is too high, which makes correlation matrix hard to interpret. We will breakdown features into two sets, first one is related to carry distance and second is related to swing type(trajectory). We will use these attributes to perform dimensionality reduction. 
+
+## Problem 1: Golf strike distance PCA analysis
 
 |            |       PC1 |      PC2 |
 |------------|-----------|----------|
@@ -147,10 +155,17 @@ Decent Angle  |0.196658 |-0.667021|
 
 ![image.png](attachment:image.png)
 
-## PCA of shape of trajectary data attributes
+# Kmean clustering of Carry dataset using Elbow method
 
 ![image-2.png](attachment:image-2.png)
 
+Optimal cluster value is 6. Which means 875 golf swings can be clustered in 8 clusters.
+
+
+
+## Ploblem 2 : PCA of shape of trajectary data attributes
+
+![image-2.png](attachment:image-2.png)
 
 |                  |       PC1     |  PC2|
 |------------------|---------------|-----|
@@ -171,13 +186,7 @@ Side Angle Dir |     0.314374| -0.103335|
 
 ![image.png](attachment:image.png)
 
-## Kmean clustering of Carry dataset using Elbow method
-
-![image-2.png](attachment:image-2.png)
-
-Optimal cluster value is 6. Which means 875 golf swings can be clustered in 8 clusters.
-
-## Kmean clustering of Swing Type dataset using Elbow method
+### Kmean clustering of Swing Type dataset using Elbow method
 
 ![image.png](attachment:image.png)
 
@@ -196,4 +205,13 @@ For that i have selected four model and each model followed steps of:
 2)  Model performane after hyperparameter tuning
 3)  confusion matrix of tuned model.
 4)  Model comparison
+
+# Model Comparison
+
+| Model | Base model Performance | Performance of Tuned Model |
+|-------|------------------------|----------------------------|
+| LGR   |  82.75%                | 71% |
+| KNN   |  64.97%               |  67.94% |
+| SVM   |  96%                  |  95.14% |
+| DS    |  98%                   | 97.58% |
 
